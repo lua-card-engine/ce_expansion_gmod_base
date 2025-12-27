@@ -11,12 +11,12 @@ const pngFiles = files.filter(file => extname(file).toLowerCase() === '.png');
 console.log(`Found ${pngFiles.length} PNG files to convert...`);
 
 for (const pngFile of pngFiles) {
-    const inputPath = join(designDir, pngFile);
-    const outputFile = basename(pngFile, '.png') + '.vtf';
-    const outputPath = join(outputDir, outputFile);
+  const inputPath = join(designDir, pngFile);
+  const outputFile = basename(pngFile, '.png') + '.vtf';
+  const outputPath = join(outputDir, outputFile);
 
-    console.log(`Converting ${pngFile} -> ${outputFile}`);
-    await convertPNGToVTF(inputPath, outputPath);
+  console.log(`Converting ${pngFile} -> ${outputFile}`);
+  await convertPNGToVTF(inputPath, outputPath);
 }
 
 console.log('Done!');

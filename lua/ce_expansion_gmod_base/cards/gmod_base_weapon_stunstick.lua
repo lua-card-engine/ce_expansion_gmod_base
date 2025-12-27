@@ -10,6 +10,6 @@ CARD.HolographicTexture = "card_engine/holo_rainbow_strong"
 CARD.ModelAngles = Angle(0, -90, 0)
 
 CARD.Attributes = {
-  Rarity = "rare",
-  Supertype = "Weapon",
+	Rarity = "rare",
+	Supertype = "Weapon",
 }

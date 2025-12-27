@@ -171,7 +171,7 @@ function PANEL:BatchRenderAndSave()
 		local modelPath = entry.path
 		local skin = entry.skin
 		self.statusLabel:SetText("Processing " ..
-		index .. "/" .. #modelEntries .. ": " .. modelPath .. (skin > 0 and " (skin " .. skin .. ")" or ""))
+			index .. "/" .. #modelEntries .. ": " .. modelPath .. (skin > 0 and " (skin " .. skin .. ")" or ""))
 
 		-- Check if model exists
 		if (not file.Exists(modelPath, "GAME")) then
