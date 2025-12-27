@@ -18,6 +18,7 @@ hook.Add(
 			UniqueID = EXPANSION_SET_ID,
 			Name = "expansion_set_gmod_base",
 			Image = "card_engine/ce_expansion_gmod_base/set_logo",
+			RemoteDownloadURL = "https://lua-card-engine.github.io/ce_expansion_gmod_base/materials/",
 
 			-- Define which attributes should appear as filters in the collection menu
 			FilterableAttributes = {

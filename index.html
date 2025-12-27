@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+    <title>GMod CardEngine Expansion: GMod Base Set</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #181c20;
+            color: #f3f3f3;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: #23272b;
+            padding: 2rem 1rem 1rem 1rem;
+            text-align: center;
+            box-shadow: 0 2px 8px #0002;
+        }
+
+        header h1 {
+            margin: 0 0 0.5rem 0;
+            font-size: 2.5rem;
+            letter-spacing: 1px;
+        }
+
+        header p {
+            margin: 0;
+            color: #b0b8c1;
+            font-size: 1.1rem;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: #23272b;
+            border-radius: 1rem;
+            box-shadow: 0 4px 16px #0004;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.15s, box-shadow 0.15s;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-6px) scale(1.03);
+            box-shadow: 0 8px 32px #0006;
+        }
+
+        .card-img {
+            width: 100%;
+            aspect-ratio: 372 / 512;
+            overflow: hidden;
+            background: linear-gradient(135deg, #3a3f44 60%, #23272b 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            text-align: center;
+            color: #7ecfff;
+        }
+
+        .card-type {
+            font-size: 0.95rem;
+            color: #b0b8c1;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>GMod CardEngine Expansion: GMod Base Set</h1>
+    </header>
+    <main>
+        <div class="card-grid"
+             id="cardGrid">
+            <!-- Cards will be injected here by JS -->
+        </div>
+    </main>
+    <script>
+        const cards = [
+            { name: 'Action: Duplicate', type: 'Action', img: 'action_duplicate.png' },
+            { name: 'Action: Noclip', type: 'Action', img: 'action_noclip.png' },
+            { name: 'Action: Plant C4', type: 'Action', img: 'action_plant_c4.png' },
+            { name: 'Action: Propkill', type: 'Action', img: 'action_propkill.png' },
+            { name: 'Action: Spawn Explosive', type: 'Action', img: 'action_spawn_explosive.png' },
+            { name: 'Gamemode: Sandbox', type: 'Gamemode', img: 'gamemode_sandbox.png' },
+            { name: 'Gamemode: TTT', type: 'Gamemode', img: 'gamemode_ttt.png' },
+            { name: 'Map: gm_construct', type: 'Map', img: 'gm_construct.png' },
+            { name: 'Map: gm_flatgrass', type: 'Map', img: 'gm_flatgrass.png' },
+            { name: 'Prop: Bathtub', type: 'Prop', img: 'prop_bathtub.png' },
+            { name: 'Prop: Blastdoor', type: 'Prop', img: 'prop_blastdoor.png' },
+            { name: 'Prop: Blue Barrel', type: 'Prop', img: 'prop_blue_barrel.png' },
+            { name: 'Prop: Boat', type: 'Prop', img: 'prop_boat.png' },
+            { name: 'Prop: Combine APC', type: 'Prop', img: 'prop_combine_apc.png' },
+            { name: 'Prop: Combine Train', type: 'Prop', img: 'prop_combine_train.png' },
+            { name: 'Prop: Doll', type: 'Prop', img: 'prop_doll.png' },
+            { name: 'Prop: Explosive Oildrum', type: 'Prop', img: 'prop_explosive_oildrum.png' },
+            { name: 'Prop: File Cabinet', type: 'Prop', img: 'prop_file_cabinet.png' },
+            { name: 'Prop: Health Kit', type: 'Prop', img: 'prop_health_kit.png' },
+            { name: 'Prop: Hula Doll', type: 'Prop', img: 'prop_hula_doll.png' },
+            { name: 'Prop: Item Crate', type: 'Prop', img: 'prop_item_crate.png' },
+            { name: 'Prop: Laundry Cart', type: 'Prop', img: 'prop_laundry_cart.png' },
+            { name: 'Prop: Lockers', type: 'Prop', img: 'prop_lockers.png' },
+            { name: 'Prop: Oildrum', type: 'Prop', img: 'prop_oildrum.png' },
+            { name: 'Prop: Pop Can', type: 'Prop', img: 'prop_pop_can.png' },
+            { name: 'Prop: Rifle Ammo', type: 'Prop', img: 'prop_rifle_ammo.png' },
+            { name: 'Prop: Rocket Ammo Crate', type: 'Prop', img: 'prop_rocket_ammo_crate.png' },
+            { name: 'Prop: Suitcase', type: 'Prop', img: 'prop_suitcase.png' },
+            { name: 'Prop: Takeout Carton', type: 'Prop', img: 'prop_takeout_carton.png' },
+            { name: 'Prop: Trabbi', type: 'Prop', img: 'prop_trabbi.png' },
+            { name: 'Prop: Traffic Cone', type: 'Prop', img: 'prop_traffic_cone.png' },
+            { name: 'Prop: Vending Machine', type: 'Prop', img: 'prop_vending_machine.png' },
+            { name: 'Prop: Watermelon', type: 'Prop', img: 'prop_watermelon.png' },
+            { name: 'TTT: 67th Way', type: 'Map', img: 'ttt_67thway.png' },
+            { name: 'TTT: Airbus', type: 'Map', img: 'ttt_airbus.png' },
+            { name: 'TTT: Lost Temple', type: 'Map', img: 'ttt_lost_temple.png' },
+            { name: 'TTT: Rooftops', type: 'Map', img: 'ttt_rooftops.png' },
+            { name: 'TTT: Skyscraper', type: 'Map', img: 'ttt_skyscraper.png' },
+            { name: 'TTT: Vessel', type: 'Map', img: 'ttt_vessel.png' },
+            { name: 'Weapon: .357 Magnum', type: 'Weapon', img: 'weapon_357_magnum.png' },
+            { name: 'Weapon: 9mm Pistol', type: 'Weapon', img: 'weapon_9mm_pistol.png' },
+            { name: 'Weapon: Alyx Gun', type: 'Weapon', img: 'weapon_alyx_gun.png' },
+            { name: 'Weapon: Annabelle', type: 'Weapon', img: 'weapon_annabelle.png' },
+            { name: 'Weapon: Bugbait', type: 'Weapon', img: 'weapon_bugbait.png' },
+            { name: 'Weapon: Crossbow', type: 'Weapon', img: 'weapon_crossbow.png' },
+            { name: 'Weapon: Crowbar', type: 'Weapon', img: 'weapon_crowbar.png' },
+            { name: 'Weapon: Gravity Gun', type: 'Weapon', img: 'weapon_gravity_gun.png' },
+            { name: 'Weapon: Grenade', type: 'Weapon', img: 'weapon_grenade.png' },
+            { name: 'Weapon: Physics Gun', type: 'Weapon', img: 'weapon_physics_gun.png' },
+            { name: 'Weapon: Pulse Rifle', type: 'Weapon', img: 'weapon_pulse_rifle.png' },
+            { name: 'Weapon: RPG Launcher', type: 'Weapon', img: 'weapon_rpg_launcher.png' },
+            { name: 'Weapon: Shotgun', type: 'Weapon', img: 'weapon_shotgun.png' },
+            { name: 'Weapon: SLAM', type: 'Weapon', img: 'weapon_slam.png' },
+        ];
+
+        // Simple icon for each type (could be replaced with real images)
+        const typeIcons = {
+            'Action': '⚡',
+            'Gamemode': '🎮',
+            'Map': '🗺️',
+            'Prop': '📦',
+            'Weapon': '🔫',
+        };
+
+        const grid = document.getElementById('cardGrid');
+        cards.forEach(card => {
+            const cardDiv = document.createElement('div');
+            cardDiv.className = 'card';
+            cardDiv.title = card.name;
+            cardDiv.innerHTML = `
+                <div class="card-img">
+                  <img
+                    src="design/${card.img}"
+                    alt="${card.name} Image"
+                    style="width:100%;height:100%;object-fit:cover;object-position:left;display:block;"
+                    onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'font-size:4rem; color:#7ecfff;\'>${typeIcons[card.type] || '❓'}</div>';"></div>
+                <div class="card-title">${card.name}</div>
+                <div class="card-type">${card.type}</div>
+            `;
+            grid.appendChild(cardDiv);
+        });
+    </script>
+</body>
+
+</html>
