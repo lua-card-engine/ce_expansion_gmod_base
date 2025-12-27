@@ -1,0 +1,88 @@
+name: Sync Textures to Cloudflare R2
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "materials/**"
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Rclone
+        run: |
+          curl https://rclone.org/install.sh | sudo bash
+
+      - name: Configure Rclone for Cloudflare R2
+        env:
+          R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET_NAME: ${{ secrets.R2_BUCKET_NAME }}
+        run: |
+          mkdir -p ~/.config/rclone
+          cat > ~/.config/rclone/rclone.conf << EOF
+          [r2]
+          type = s3
+          provider = Cloudflare
+          access_key_id = ${R2_ACCESS_KEY_ID}
+          secret_access_key = ${R2_SECRET_ACCESS_KEY}
+          endpoint = https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com
+          acl = public-read
+          EOF
+
+      - name: Sync textures to R2
+        env:
+          R2_BUCKET_NAME: ${{ secrets.R2_BUCKET_NAME }}
+        run: |
+          rclone sync materials/ r2:${R2_BUCKET_NAME}/ \
+            --progress \
+            --transfers 8 \
+            --checkers 16 \
+            --fast-list \
+            --s3-upload-concurrency 8 \
+            --log-level INFO
+
+      - name: Generate texture manifest
+        run: |
+          echo "# Texture CDN URLs" > TEXTURE_URLS.md
+          echo "" >> TEXTURE_URLS.md
+          echo "Base URL: \`https://pub-YOUR_SUBDOMAIN.r2.dev/\`" >> TEXTURE_URLS.md
+          echo "" >> TEXTURE_URLS.md
+          echo "## Available Textures" >> TEXTURE_URLS.md
+          echo "" >> TEXTURE_URLS.md
+
+          find materials -type f -name "*.vtf" | sort | while read file; do
+            path="${file#materials/}"
+            echo "- \`${path}\`" >> TEXTURE_URLS.md
+          done
+
+          echo "" >> TEXTURE_URLS.md
+          echo "---" >> TEXTURE_URLS.md
+          echo "Last updated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> TEXTURE_URLS.md
+
+      - name: Upload manifest artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: texture-manifest
+          path: TEXTURE_URLS.md
+
+      - name: Summary
+        run: |
+          total=$(find materials -type f -name "*.vtf" | wc -l)
+          size=$(du -sh materials | cut -f1)
+
+          echo "### 🚀 Texture Sync Complete" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Total textures**: ${total}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Total size**: ${size}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Bucket**: \`${{ secrets.R2_BUCKET_NAME }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "✅ All textures successfully synced to Cloudflare R2" >> $GITHUB_STEP_SUMMARY
