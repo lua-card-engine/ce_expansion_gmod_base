@@ -38,11 +38,28 @@ jobs:
           acl = public-read
           EOF
 
-      - name: Sync textures to R2
+      - name: Detect expansion folder
+        id: detect
+        run: |
+          expansion_folder=$(find materials/card_engine/expansions -mindepth 1 -maxdepth 1 -type d | head -n 1)
+
+          if [ -z "$expansion_folder" ]; then
+            echo "Error: No expansion folder found in materials/card_engine/expansions/"
+            exit 1
+          fi
+
+          expansion_name=$(basename "$expansion_folder")
+          echo "expansion_name=$expansion_name" >> $GITHUB_OUTPUT
+          echo "expansion_folder=$expansion_folder" >> $GITHUB_OUTPUT
+          echo "Found expansion: $expansion_name"
+
+      - name: Sync expansion to R2
         env:
           R2_BUCKET_NAME: ${{ secrets.R2_BUCKET_NAME }}
+          EXPANSION_NAME: ${{ steps.detect.outputs.expansion_name }}
+          EXPANSION_FOLDER: ${{ steps.detect.outputs.expansion_folder }}
         run: |
-          rclone sync materials/ r2:${R2_BUCKET_NAME}/ \
+          rclone sync ${EXPANSION_FOLDER}/ r2:${R2_BUCKET_NAME}/card_engine/expansions/${EXPANSION_NAME}/ \
             --progress \
             --transfers 8 \
             --checkers 16 \
@@ -51,16 +68,21 @@ jobs:
             --log-level INFO
 
       - name: Generate texture manifest
+        env:
+          EXPANSION_NAME: ${{ steps.detect.outputs.expansion_name }}
+          EXPANSION_FOLDER: ${{ steps.detect.outputs.expansion_folder }}
         run: |
           echo "# Texture CDN URLs" > TEXTURE_URLS.md
           echo "" >> TEXTURE_URLS.md
-          echo "Base URL: \`https://card-engine-r2.luttonline.nl/\`" >> TEXTURE_URLS.md
+          echo "Expansion: \`${EXPANSION_NAME}\`" >> TEXTURE_URLS.md
+          echo "" >> TEXTURE_URLS.md
+          echo "Base URL: \`https://card-engine-r2.luttonline.nl/card_engine/expansions/${EXPANSION_NAME}/\`" >> TEXTURE_URLS.md
           echo "" >> TEXTURE_URLS.md
           echo "## Available Textures" >> TEXTURE_URLS.md
           echo "" >> TEXTURE_URLS.md
 
-          find materials -type f -name "*.vtf" | sort | while read file; do
-            path="${file#materials/}"
+          find ${EXPANSION_FOLDER} -type f -name "*.vtf" | sort | while read file; do
+            path="${file#${EXPANSION_FOLDER}/}"
             echo "- \`${path}\`" >> TEXTURE_URLS.md
           done
 
@@ -75,12 +97,16 @@ jobs:
           path: TEXTURE_URLS.md
 
       - name: Summary
+        env:
+          EXPANSION_NAME: ${{ steps.detect.outputs.expansion_name }}
+          EXPANSION_FOLDER: ${{ steps.detect.outputs.expansion_folder }}
         run: |
-          total=$(find materials -type f -name "*.vtf" | wc -l)
-          size=$(du -sh materials | cut -f1)
+          total=$(find ${EXPANSION_FOLDER} -type f -name "*.vtf" | wc -l)
+          size=$(du -sh ${EXPANSION_FOLDER} | cut -f1)
 
           echo "### 🚀 Texture Sync Complete" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Expansion**: ${EXPANSION_NAME}" >> $GITHUB_STEP_SUMMARY
           echo "- **Total textures**: ${total}" >> $GITHUB_STEP_SUMMARY
           echo "- **Total size**: ${size}" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
