@@ -21,12 +21,14 @@ To use this expansion set in your Garry's Mod server, follow these steps:
             ├── design/
             │   └── ...
             ├── lua/
+            │   ├── autorun/
+            │   │   └── ce_expansion_gmod_base.lua
+            │   └── ce_expansion_gmod_base/
+            │       └── ...
+            ├── materials/
             │   └── card_engine/
             │       └── expansions/
             │           └── gmod_base_set/
-            ├── materials/
-            │   └── card_engine/
-            │       └── ce_gmod_base_set/
             ├── tools/
             │   └── ...
             └── ...
@@ -69,7 +71,7 @@ To convert your `.png` card designs to `.vtf`, follow these steps:
     npm install
     ```
 
-4. To convert all `.png` files in the `design/` folder to `.vtf` format in the `materials/card_engine/ce_gmod_base_set` folder, run the following command:
+4. To convert all `.png` files in the `design/` folder to `.vtf` format in the `materials/card_engine/expansions/gmod_base_set` folder, run the following command:
 
     ```bash
     npm run convert

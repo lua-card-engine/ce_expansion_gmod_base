@@ -3,7 +3,7 @@ import { readdir } from 'fs/promises';
 import { join, basename, extname } from 'path';
 
 const designDir = '../design';
-const outputDir = '../materials/card_engine/ce_gmod_base_set';
+const outputDir = '../materials/card_engine/expansions/gmod_base_set';
 
 const files = await readdir(designDir);
 const pngFiles = files.filter(file => extname(file).toLowerCase() === '.png');

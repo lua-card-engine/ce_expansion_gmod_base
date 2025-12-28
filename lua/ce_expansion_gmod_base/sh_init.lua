@@ -45,6 +45,14 @@ hook.Add(
 			end
 		)
 
+		CardEngine.Booster.IncludeDirectory(
+			CardEngine.PathCombine("ce_expansion_gmod_base", "boosters/"),
+			nil,
+			function(fileName, boosterFilePath)
+				BOOSTER.ExpansionSet = EXPANSION_SET_ID
+			end
+		)
+
 		CardEngine.Language.IncludeDirectory(CardEngine.PathCombine("ce_expansion_gmod_base", "languages/"))
 	end
 )
