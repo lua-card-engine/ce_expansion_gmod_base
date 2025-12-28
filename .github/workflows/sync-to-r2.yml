@@ -54,7 +54,7 @@ jobs:
         run: |
           echo "# Texture CDN URLs" > TEXTURE_URLS.md
           echo "" >> TEXTURE_URLS.md
-          echo "Base URL: \`https://pub-YOUR_SUBDOMAIN.r2.dev/\`" >> TEXTURE_URLS.md
+          echo "Base URL: \`https://card-engine-r2.luttonline.nl/\`" >> TEXTURE_URLS.md
           echo "" >> TEXTURE_URLS.md
           echo "## Available Textures" >> TEXTURE_URLS.md
           echo "" >> TEXTURE_URLS.md
@@ -83,6 +83,5 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "- **Total textures**: ${total}" >> $GITHUB_STEP_SUMMARY
           echo "- **Total size**: ${size}" >> $GITHUB_STEP_SUMMARY
-          echo "- **Bucket**: \`${{ secrets.R2_BUCKET_NAME }}\`" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "✅ All textures successfully synced to Cloudflare R2" >> $GITHUB_STEP_SUMMARY
