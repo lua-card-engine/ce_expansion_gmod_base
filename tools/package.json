@@ -12,6 +12,6 @@
     "author": "luttje",
     "license": "MIT",
     "dependencies": {
-        "png-to-vtf": "^0.2.0"
+        "png-to-vtf": "^0.3.0"
     }
 }
