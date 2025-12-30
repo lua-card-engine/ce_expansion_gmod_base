@@ -6,11 +6,6 @@ hook.Add(
 	"CardEngineInitializeExpansionPacks",
 	"CardEngine.GmodBaseSet.InitializeExpansionPack",
 	function()
-		if (not CardEngine) then
-			ErrorNoHalt("Card Engine not found! Expansion pack 'ce_expansion_gmod_base' will not load.\n")
-			return
-		end
-
 		local EXPANSION_SET_ID = "gmod_base"
 
 		-- Register the expansion set with its metadata and filterable attributes
