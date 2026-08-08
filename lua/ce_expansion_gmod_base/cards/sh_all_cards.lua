@@ -13,7 +13,7 @@ do
 	CARD.ModelAngles = Angle(0, -90, 0)
 
 	CARD.Attributes = {
-		Rarity = "common",
+		Rarity = "Common",
 		Supertype = "Action",
 	}
 	table.insert(ALL_CARDS, CARD)
@@ -33,8 +33,8 @@ do
 	CARD.HolographicTexture = "card_engine/holo_rainbow_strong"
 
 	CARD.Attributes = {
-	  Rarity = "rare",
-	  Supertype = "Action",
+		Rarity = "Rare",
+		Supertype = "Action",
 	}
 	table.insert(ALL_CARDS, CARD)
 end
@@ -51,8 +51,8 @@ do
 	CARD.CardSize = CardEngine.DEFAULT_CARD_MODELS.COMMON
 
 	CARD.Attributes = {
-	  Rarity = "common",
-	  Supertype = "Action",
+		Rarity = "Common",
+		Supertype = "Action",
 	}
 	table.insert(ALL_CARDS, CARD)
 end
@@ -70,8 +70,8 @@ do
 	CARD.ModelAngles = Angle(0, -90, 0)
 
 	CARD.Attributes = {
-	  Rarity = "common",
-	  Supertype = "Action",
+		Rarity = "Common",
+		Supertype = "Action",
 	}
 	table.insert(ALL_CARDS, CARD)
 end
@@ -89,8 +89,8 @@ do
 	CARD.ModelAngles = Angle(0, -90, 0)
 
 	CARD.Attributes = {
-	  Rarity = "common",
-	  Supertype = "Action",
+		Rarity = "Common",
+		Supertype = "Action",
 	}
 	table.insert(ALL_CARDS, CARD)
 end
@@ -107,8 +107,8 @@ do
 	CARD.CardSize = CardEngine.DEFAULT_CARD_MODELS.COMMON
 
 	CARD.Attributes = {
-	  Rarity = "common",
-	  Supertype = "Gamemode",
+		Rarity = "Common",
+		Supertype = "Gamemode",
 	}
 	table.insert(ALL_CARDS, CARD)
 end
@@ -125,8 +125,8 @@ do
 	CARD.CardSize = CardEngine.DEFAULT_CARD_MODELS.COMMON
 
 	CARD.Attributes = {
-	  Rarity = "common",
-	  Supertype = "Gamemode",
+		Rarity = "Common",
+		Supertype = "Gamemode",
 	}
 	table.insert(ALL_CARDS, CARD)
 end
@@ -143,8 +143,8 @@ do
 	CARD.CardSize = CardEngine.DEFAULT_CARD_MODELS.COMMON
 
 	CARD.Attributes = {
-	  Rarity = "common",
-	  Supertype = "Map",
+		Rarity = "Common",
+		Supertype = "Map",
 	}
 	table.insert(ALL_CARDS, CARD)
 end
@@ -161,8 +161,8 @@ do
 	CARD.CardSize = CardEngine.DEFAULT_CARD_MODELS.COMMON
 
 	CARD.Attributes = {
-	  Rarity = "common",
-	  Supertype = "Map",
+		Rarity = "Common",
+		Supertype = "Map",
 	}
 	table.insert(ALL_CARDS, CARD)
 end
@@ -181,8 +181,8 @@ do
 	CARD.HolographicTexture = "card_engine/holo_rainbow_strong"
 
 	CARD.Attributes = {
-	  Rarity = "rare",
-	  Supertype = "Prop",
+		Rarity = "Rare",
+		Supertype = "Prop",
 	}
 	table.insert(ALL_CARDS, CARD)
 end
@@ -201,8 +201,8 @@ do
 	CARD.HolographicTexture = "card_engine/holo_rainbow_strong"
 
 	CARD.Attributes = {
-	  Rarity = "rare",
-	  Supertype = "Prop",
+		Rarity = "Rare",
+		Supertype = "Prop",
 	}
 	table.insert(ALL_CARDS, CARD)
 end
@@ -221,8 +221,8 @@ do
 	CARD.HolographicTexture = "card_engine/holo_rainbow_strong"
 
 	CARD.Attributes = {
-	  Rarity = "rare",
-	  Supertype = "Prop",
+		Rarity = "Rare",
+		Supertype = "Prop",
 	}
 	table.insert(ALL_CARDS, CARD)
 end
@@ -241,8 +241,8 @@ do
 	CARD.HolographicTexture = "card_engine/holo_rainbow_strong"
 
 	CARD.Attributes = {
-	  Rarity = "rare",
-	  Supertype = "Prop",
+		Rarity = "Rare",
+		Supertype = "Prop",
 	}
 	table.insert(ALL_CARDS, CARD)
 end
@@ -261,8 +261,8 @@ do
 	CARD.HolographicTexture = "card_engine/holo_rainbow_strong"
 
 	CARD.Attributes = {
-	  Rarity = "rare",
-	  Supertype = "Prop",
+		Rarity = "Rare",
+		Supertype = "Prop",
 	}
 	table.insert(ALL_CARDS, CARD)
 end
@@ -281,8 +281,8 @@ do
 	CARD.HolographicTexture = "card_engine/holo_rainbow_strong"
 
 	CARD.Attributes = {
-	  Rarity = "rare",
-	  Supertype = "Prop",
+		Rarity = "Rare",
+		Supertype = "Prop",
 	}
 	table.insert(ALL_CARDS, CARD)
 end
@@ -301,8 +301,8 @@ do
 	CARD.HolographicTexture = "card_engine/holo_rainbow_strong"
 
 	CARD.Attributes = {
-	  Rarity = "rare",
-	  Supertype = "Prop",
+		Rarity = "Rare",
+		Supertype = "Prop",
 	}
 	table.insert(ALL_CARDS, CARD)
 end
@@ -321,8 +321,8 @@ do
 	CARD.HolographicTexture = "card_engine/holo_rainbow_strong"
 
 	CARD.Attributes = {
-	  Rarity = "rare",
-	  Supertype = "Prop",
+		Rarity = "Rare",
+		Supertype = "Prop",
 	}
 	table.insert(ALL_CARDS, CARD)
 end
@@ -341,8 +341,8 @@ do
 	CARD.HolographicTexture = "card_engine/holo_rainbow_strong"
 
 	CARD.Attributes = {
-	  Rarity = "rare",
-	  Supertype = "Prop",
+		Rarity = "Rare",
+		Supertype = "Prop",
 	}
 	table.insert(ALL_CARDS, CARD)
 end
@@ -361,8 +361,8 @@ do
 	CARD.HolographicTexture = "card_engine/holo_rainbow_strong"
 
 	CARD.Attributes = {
-	  Rarity = "rare",
-	  Supertype = "Prop",
+		Rarity = "Rare",
+		Supertype = "Prop",
 	}
 	table.insert(ALL_CARDS, CARD)
 end
@@ -381,8 +381,8 @@ do
 	CARD.HolographicTexture = "card_engine/holo_rainbow_strong"
 
 	CARD.Attributes = {
-	  Rarity = "rare",
-	  Supertype = "Prop",
+		Rarity = "Rare",
+		Supertype = "Prop",
 	}
 	table.insert(ALL_CARDS, CARD)
 end
@@ -401,8 +401,8 @@ do
 	CARD.HolographicTexture = "card_engine/holo_rainbow_strong"
 
 	CARD.Attributes = {
-	  Rarity = "rare",
-	  Supertype = "Prop",
+		Rarity = "Rare",
+		Supertype = "Prop",
 	}
 	table.insert(ALL_CARDS, CARD)
 end
@@ -421,8 +421,8 @@ do
 	CARD.HolographicTexture = "card_engine/holo_rainbow_strong"
 
 	CARD.Attributes = {
-	  Rarity = "rare",
-	  Supertype = "Prop",
+		Rarity = "Rare",
+		Supertype = "Prop",
 	}
 	table.insert(ALL_CARDS, CARD)
 end
@@ -441,8 +441,8 @@ do
 	CARD.HolographicTexture = "card_engine/holo_rainbow_strong"
 
 	CARD.Attributes = {
-	  Rarity = "rare",
-	  Supertype = "Prop",
+		Rarity = "Rare",
+		Supertype = "Prop",
 	}
 	table.insert(ALL_CARDS, CARD)
 end
@@ -461,8 +461,8 @@ do
 	CARD.HolographicTexture = "card_engine/holo_rainbow_strong"
 
 	CARD.Attributes = {
-	  Rarity = "rare",
-	  Supertype = "Prop",
+		Rarity = "Rare",
+		Supertype = "Prop",
 	}
 	table.insert(ALL_CARDS, CARD)
 end
@@ -481,8 +481,8 @@ do
 	CARD.HolographicTexture = "card_engine/holo_rainbow_strong"
 
 	CARD.Attributes = {
-	  Rarity = "rare",
-	  Supertype = "Prop",
+		Rarity = "Rare",
+		Supertype = "Prop",
 	}
 	table.insert(ALL_CARDS, CARD)
 end
@@ -501,8 +501,8 @@ do
 	CARD.HolographicTexture = "card_engine/holo_rainbow_strong"
 
 	CARD.Attributes = {
-	  Rarity = "rare",
-	  Supertype = "Prop",
+		Rarity = "Rare",
+		Supertype = "Prop",
 	}
 	table.insert(ALL_CARDS, CARD)
 end
@@ -521,8 +521,8 @@ do
 	CARD.HolographicTexture = "card_engine/holo_rainbow_strong"
 
 	CARD.Attributes = {
-	  Rarity = "rare",
-	  Supertype = "Prop",
+		Rarity = "Rare",
+		Supertype = "Prop",
 	}
 	table.insert(ALL_CARDS, CARD)
 end
@@ -541,8 +541,8 @@ do
 	CARD.HolographicTexture = "card_engine/holo_rainbow_strong"
 
 	CARD.Attributes = {
-	  Rarity = "rare",
-	  Supertype = "Prop",
+		Rarity = "Rare",
+		Supertype = "Prop",
 	}
 	table.insert(ALL_CARDS, CARD)
 end
@@ -561,8 +561,8 @@ do
 	CARD.HolographicTexture = "card_engine/holo_rainbow_strong"
 
 	CARD.Attributes = {
-	  Rarity = "rare",
-	  Supertype = "Prop",
+		Rarity = "Rare",
+		Supertype = "Prop",
 	}
 	table.insert(ALL_CARDS, CARD)
 end
@@ -581,8 +581,8 @@ do
 	CARD.HolographicTexture = "card_engine/holo_rainbow_strong"
 
 	CARD.Attributes = {
-	  Rarity = "rare",
-	  Supertype = "Prop",
+		Rarity = "Rare",
+		Supertype = "Prop",
 	}
 	table.insert(ALL_CARDS, CARD)
 end
@@ -601,8 +601,8 @@ do
 	CARD.HolographicTexture = "card_engine/holo_rainbow_strong"
 
 	CARD.Attributes = {
-	  Rarity = "rare",
-	  Supertype = "Prop",
+		Rarity = "Rare",
+		Supertype = "Prop",
 	}
 	table.insert(ALL_CARDS, CARD)
 end
@@ -621,8 +621,8 @@ do
 	CARD.HolographicTexture = "card_engine/holo_rainbow_strong"
 
 	CARD.Attributes = {
-	  Rarity = "rare",
-	  Supertype = "Prop",
+		Rarity = "Rare",
+		Supertype = "Prop",
 	}
 	table.insert(ALL_CARDS, CARD)
 end
@@ -641,8 +641,8 @@ do
 	CARD.HolographicTexture = "card_engine/holo_rainbow_strong"
 
 	CARD.Attributes = {
-	  Rarity = "rare",
-	  Supertype = "Prop",
+		Rarity = "Rare",
+		Supertype = "Prop",
 	}
 	table.insert(ALL_CARDS, CARD)
 end
@@ -659,8 +659,8 @@ do
 	CARD.CardSize = CardEngine.DEFAULT_CARD_MODELS.COMMON
 
 	CARD.Attributes = {
-	  Rarity = "common",
-	  Supertype = "Map",
+		Rarity = "Common",
+		Supertype = "Map",
 	}
 	table.insert(ALL_CARDS, CARD)
 end
@@ -677,8 +677,8 @@ do
 	CARD.CardSize = CardEngine.DEFAULT_CARD_MODELS.COMMON
 
 	CARD.Attributes = {
-	  Rarity = "common",
-	  Supertype = "Map",
+		Rarity = "Common",
+		Supertype = "Map",
 	}
 	table.insert(ALL_CARDS, CARD)
 end
@@ -695,8 +695,8 @@ do
 	CARD.CardSize = CardEngine.DEFAULT_CARD_MODELS.COMMON
 
 	CARD.Attributes = {
-	  Rarity = "common",
-	  Supertype = "Map",
+		Rarity = "Common",
+		Supertype = "Map",
 	}
 	table.insert(ALL_CARDS, CARD)
 end
@@ -713,8 +713,8 @@ do
 	CARD.CardSize = CardEngine.DEFAULT_CARD_MODELS.COMMON
 
 	CARD.Attributes = {
-	  Rarity = "common",
-	  Supertype = "Map",
+		Rarity = "Common",
+		Supertype = "Map",
 	}
 	table.insert(ALL_CARDS, CARD)
 end
@@ -731,8 +731,8 @@ do
 	CARD.CardSize = CardEngine.DEFAULT_CARD_MODELS.COMMON
 
 	CARD.Attributes = {
-	  Rarity = "common",
-	  Supertype = "Map",
+		Rarity = "Common",
+		Supertype = "Map",
 	}
 	table.insert(ALL_CARDS, CARD)
 end
@@ -749,8 +749,8 @@ do
 	CARD.CardSize = CardEngine.DEFAULT_CARD_MODELS.COMMON
 
 	CARD.Attributes = {
-	  Rarity = "common",
-	  Supertype = "Map",
+		Rarity = "Common",
+		Supertype = "Map",
 	}
 	table.insert(ALL_CARDS, CARD)
 end
@@ -770,8 +770,8 @@ do
 	CARD.ModelAngles = Angle(0, -90, 0)
 
 	CARD.Attributes = {
-	  Rarity = "rare",
-	  Supertype = "Weapon",
+		Rarity = "Rare",
+		Supertype = "Weapon",
 	}
 	table.insert(ALL_CARDS, CARD)
 end
@@ -791,8 +791,8 @@ do
 	CARD.ModelAngles = Angle(0, -90, 0)
 
 	CARD.Attributes = {
-	  Rarity = "rare",
-	  Supertype = "Weapon",
+		Rarity = "Rare",
+		Supertype = "Weapon",
 	}
 	table.insert(ALL_CARDS, CARD)
 end
@@ -812,8 +812,8 @@ do
 	CARD.ModelAngles = Angle(0, -90, 0)
 
 	CARD.Attributes = {
-	  Rarity = "rare",
-	  Supertype = "Weapon",
+		Rarity = "Rare",
+		Supertype = "Weapon",
 	}
 	table.insert(ALL_CARDS, CARD)
 end
@@ -833,8 +833,8 @@ do
 	CARD.ModelAngles = Angle(0, -90, 0)
 
 	CARD.Attributes = {
-	  Rarity = "rare",
-	  Supertype = "Weapon",
+		Rarity = "Rare",
+		Supertype = "Weapon",
 	}
 	table.insert(ALL_CARDS, CARD)
 end
@@ -854,8 +854,8 @@ do
 	CARD.ModelAngles = Angle(0, -90, 0)
 
 	CARD.Attributes = {
-	  Rarity = "rare",
-	  Supertype = "Weapon",
+		Rarity = "Rare",
+		Supertype = "Weapon",
 	}
 	table.insert(ALL_CARDS, CARD)
 end
@@ -875,8 +875,8 @@ do
 	CARD.ModelAngles = Angle(0, -90, 0)
 
 	CARD.Attributes = {
-	  Rarity = "rare",
-	  Supertype = "Weapon",
+		Rarity = "Rare",
+		Supertype = "Weapon",
 	}
 	table.insert(ALL_CARDS, CARD)
 end
@@ -896,8 +896,8 @@ do
 	CARD.ModelAngles = Angle(0, -90, 0)
 
 	CARD.Attributes = {
-	  Rarity = "rare",
-	  Supertype = "Weapon",
+		Rarity = "Rare",
+		Supertype = "Weapon",
 	}
 	table.insert(ALL_CARDS, CARD)
 end
@@ -917,8 +917,8 @@ do
 	CARD.ModelAngles = Angle(0, -90, 0)
 
 	CARD.Attributes = {
-	  Rarity = "rare",
-	  Supertype = "Weapon",
+		Rarity = "Rare",
+		Supertype = "Weapon",
 	}
 	table.insert(ALL_CARDS, CARD)
 end
@@ -938,8 +938,8 @@ do
 	CARD.ModelAngles = Angle(0, -90, 0)
 
 	CARD.Attributes = {
-	  Rarity = "rare",
-	  Supertype = "Weapon",
+		Rarity = "Rare",
+		Supertype = "Weapon",
 	}
 	table.insert(ALL_CARDS, CARD)
 end
@@ -959,8 +959,8 @@ do
 	CARD.ModelAngles = Angle(0, -90, 0)
 
 	CARD.Attributes = {
-	  Rarity = "rare",
-	  Supertype = "Weapon",
+		Rarity = "Rare",
+		Supertype = "Weapon",
 	}
 	table.insert(ALL_CARDS, CARD)
 end
@@ -980,8 +980,8 @@ do
 	CARD.ModelAngles = Angle(0, -90, 0)
 
 	CARD.Attributes = {
-	  Rarity = "rare",
-	  Supertype = "Weapon",
+		Rarity = "Rare",
+		Supertype = "Weapon",
 	}
 	table.insert(ALL_CARDS, CARD)
 end
@@ -1001,8 +1001,8 @@ do
 	CARD.ModelAngles = Angle(0, -90, 0)
 
 	CARD.Attributes = {
-	  Rarity = "rare",
-	  Supertype = "Weapon",
+		Rarity = "Rare",
+		Supertype = "Weapon",
 	}
 	table.insert(ALL_CARDS, CARD)
 end
@@ -1022,8 +1022,8 @@ do
 	CARD.ModelAngles = Angle(0, -90, 0)
 
 	CARD.Attributes = {
-	  Rarity = "rare",
-	  Supertype = "Weapon",
+		Rarity = "Rare",
+		Supertype = "Weapon",
 	}
 	table.insert(ALL_CARDS, CARD)
 end
@@ -1043,8 +1043,8 @@ do
 	CARD.ModelAngles = Angle(0, -90, 0)
 
 	CARD.Attributes = {
-	  Rarity = "rare",
-	  Supertype = "Weapon",
+		Rarity = "Rare",
+		Supertype = "Weapon",
 	}
 	table.insert(ALL_CARDS, CARD)
 end
@@ -1064,8 +1064,8 @@ do
 	CARD.ModelAngles = Angle(0, -90, 0)
 
 	CARD.Attributes = {
-	  Rarity = "rare",
-	  Supertype = "Weapon",
+		Rarity = "Rare",
+		Supertype = "Weapon",
 	}
 	table.insert(ALL_CARDS, CARD)
 end
@@ -1085,8 +1085,8 @@ do
 	CARD.ModelAngles = Angle(0, -90, 0)
 
 	CARD.Attributes = {
-	  Rarity = "rare",
-	  Supertype = "Weapon",
+		Rarity = "Rare",
+		Supertype = "Weapon",
 	}
 	table.insert(ALL_CARDS, CARD)
 end

@@ -8,6 +8,6 @@ CARD.CardSize = CardEngine.DEFAULT_CARD_MODELS.COMMON
 CARD.ModelAngles = Angle(0, -90, 0)
 
 CARD.Attributes = {
-  Rarity = "common",
+  Rarity = "Common",
   Supertype = "Action",
 }

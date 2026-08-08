@@ -7,6 +7,6 @@ CARD.RearTexture = "card_engine/expansions/gmod_base_set/back"
 CARD.CardSize = CardEngine.DEFAULT_CARD_MODELS.COMMON
 
 CARD.Attributes = {
-  Rarity = "common",
+  Rarity = "Common",
   Supertype = "Action",
 }

@@ -9,6 +9,6 @@ CARD.HolographicStrength = Vector(1, 1, 1)
 CARD.HolographicTexture = "card_engine/holo_rainbow_strong"
 
 CARD.Attributes = {
-  Rarity = "rare",
+  Rarity = "Rare",
   Supertype = "Prop",
 }
