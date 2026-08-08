@@ -11,11 +11,16 @@ CARD.Attributes = {
 	Supertype = "Gamemode",
 }
 
+-- Odds of actually receiving the card on a matching join.
+-- Kept lower than the specific-map cards since most servers run
+-- Sandbox or TTT, making this condition much easier to hit.
+local REWARD_CHANCE = 15
+
 if (SERVER) then
 	-- Reward the card when a player joins on the Sandbox gamemode
 	function CARD.hooks:PlayerInitialSpawn(ply)
-		if (engine.ActiveGamemode() == "sandbox") then
-			CardEngine.Collection.AddCard(ply, "gmod_base_gamemode_sandbox")
+		if (engine.ActiveGamemode() == "sandbox" and math.random(1, REWARD_CHANCE) == 1) then
+			CardEngine.Collection.AddCard(ply, self:GetUniqueID())
 		end
 	end
 end

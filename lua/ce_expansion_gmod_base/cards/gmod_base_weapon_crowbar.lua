@@ -10,15 +10,20 @@ CARD.HolographicTexture = "card_engine/holo_rainbow_strong"
 CARD.ModelAngles = Angle(0, -90, 0)
 
 CARD.Attributes = {
-	Rarity = "Rare",
-	Supertype = "Weapon",
+  Rarity = "Rare",
+  Supertype = "Weapon",
 }
 
+-- Odds of actually receiving the card once this weapon is equipped.
+-- Kept low (1 in 1000) because switching to an already-owned weapon
+-- can be repeated instantly and indefinitely.
+local REWARD_CHANCE = 500
+
 if (SERVER) then
-	-- Reward the card when a player equips this weapon
-	function CARD.hooks:PlayerSwitchWeapon(ply, oldWeapon, newWeapon)
-		if (IsValid(newWeapon) and newWeapon:GetClass() == "weapon_crowbar") then
-			CardEngine.Collection.AddCard(ply, "gmod_base_weapon_crowbar")
-		end
-	end
+  -- Reward the card when a player equips this weapon
+  function CARD.hooks:PlayerSwitchWeapon(ply, oldWeapon, newWeapon)
+    if (IsValid(newWeapon) and newWeapon:GetClass() == "weapon_crowbar" and math.random(1, REWARD_CHANCE) == 1) then
+      CardEngine.Collection.AddCard(ply, self:GetUniqueID())
+    end
+  end
 end

@@ -9,15 +9,20 @@ CARD.HolographicStrength = Vector(1, 1, 1)
 CARD.HolographicTexture = "card_engine/holo_rainbow_strong"
 
 CARD.Attributes = {
-	Rarity = "Rare",
-	Supertype = "Prop",
+  Rarity = "Rare",
+  Supertype = "Prop",
 }
 
+-- Odds of actually receiving the card once this prop is spawned.
+-- Kept low (1 in 1000) because props can be spawned freely and
+-- repeatedly from the spawn menu.
+local REWARD_CHANCE = 500
+
 if (SERVER) then
-	-- Reward the card when a player spawns this prop
-	function CARD.hooks:PlayerSpawnedProp(ply, model, prop)
-		if (model == "models/props_lab/blastdoor001a.mdl") then
-			CardEngine.Collection.AddCard(ply, "gmod_base_prop_blastdoor")
-		end
-	end
+  -- Reward the card when a player spawns this prop
+  function CARD.hooks:PlayerSpawnedProp(ply, model, prop)
+    if (model == "models/props_lab/blastdoor001a.mdl" and math.random(1, REWARD_CHANCE) == 1) then
+      CardEngine.Collection.AddCard(ply, self:GetUniqueID())
+    end
+  end
 end

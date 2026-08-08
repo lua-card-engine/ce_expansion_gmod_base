@@ -12,6 +12,10 @@ CARD.Attributes = {
 	Supertype = "Action",
 }
 
+-- Common rarity, but still kept low (1 in 150) since explosive props
+-- can be spawned repeatedly from the spawn menu just like other props.
+local REWARD_CHANCE = 150
+
 if (SERVER) then
 	-- Reward the card when a player spawns an explosive prop.
 	-- Extend this list if more explosive props should count.
@@ -21,8 +25,8 @@ if (SERVER) then
 	}
 
 	function CARD.hooks:PlayerSpawnedProp(ply, model, prop)
-		if (EXPLOSIVE_MODELS[model]) then
-			CardEngine.Collection.AddCard(ply, "gmod_base_action_spawn_explosive")
+		if (EXPLOSIVE_MODELS[model] and math.random(1, REWARD_CHANCE) == 1) then
+			CardEngine.Collection.AddCard(ply, self:GetUniqueID())
 		end
 	end
 end

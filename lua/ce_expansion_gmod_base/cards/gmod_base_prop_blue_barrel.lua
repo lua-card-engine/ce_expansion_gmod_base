@@ -13,11 +13,16 @@ CARD.Attributes = {
 	Supertype = "Prop",
 }
 
+-- Odds of actually receiving the card once this prop is spawned.
+-- Kept low (1 in 1000) because props can be spawned freely and
+-- repeatedly from the spawn menu.
+local REWARD_CHANCE = 500
+
 if (SERVER) then
 	-- Reward the card when a player spawns this prop
 	function CARD.hooks:PlayerSpawnedProp(ply, model, prop)
-		if (model == "models/props_borealis/bluebarrel001.mdl") then
-			CardEngine.Collection.AddCard(ply, "gmod_base_prop_blue_barrel")
+		if (model == "models/props_borealis/bluebarrel001.mdl" and math.random(1, REWARD_CHANCE) == 1) then
+			CardEngine.Collection.AddCard(ply, self:GetUniqueID())
 		end
 	end
 end
