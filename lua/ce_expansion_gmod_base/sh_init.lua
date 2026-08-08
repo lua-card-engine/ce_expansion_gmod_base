@@ -31,9 +31,28 @@ hook.Add(
 			},
 		})
 
+		--------------------------------------------------------------------------------------
+		--- Choose ONE of the following two methods to load cards for this expansion pack. ---
+		--------------------------------------------------------------------------------------
+
+		-- Method 1: Load all cards from a directory of files
+		--[[
 		CardEngine.Collection.IncludeDirectory(
 			CardEngine.PathCombine("ce_expansion_gmod_base", "cards/"),
 			nil,
+			-- Automatically inject the ExpansionSet property into all cards loaded from this expansion pack
+			function(fileName, cardFilePath)
+				CARD.ExpansionSet = EXPANSION_SET_ID
+			end
+        )
+		--]]
+
+		-- Method 2: Load all cards from a single file (recommended to reduce amount of files in the expansion pack)
+		-- Use tools/concat_cards.js to combine all card files into a single file for this method
+		local ALL_CARDS = include(CardEngine.PathCombine("ce_expansion_gmod_base", "cards/sh_all_cards.lua"))
+
+		CardEngine.Collection.IncludeRegistrations(
+			ALL_CARDS,
 			-- Automatically inject the ExpansionSet property into all cards loaded from this expansion pack
 			function(fileName, cardFilePath)
 				CARD.ExpansionSet = EXPANSION_SET_ID
