@@ -9,6 +9,15 @@ CARD.HolographicStrength = Vector(1, 1, 1)
 CARD.HolographicTexture = "card_engine/holo_rainbow_strong"
 
 CARD.Attributes = {
-  Rarity = "Rare",
-  Supertype = "Prop",
+	Rarity = "Rare",
+	Supertype = "Prop",
 }
+
+if (SERVER) then
+	-- Reward the card when a player spawns this prop
+	function CARD.hooks:PlayerSpawnedProp(ply, model, prop)
+		if (model == "models/props_combine/combinetrain01a.mdl") then
+			CardEngine.Collection.AddCard(ply, "gmod_base_prop_combine_train")
+		end
+	end
+end

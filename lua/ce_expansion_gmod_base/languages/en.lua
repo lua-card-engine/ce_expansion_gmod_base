@@ -17,8 +17,8 @@ return {
 	["gmod_base_gm_construct"] = "GM_Construct",
 	["gmod_base_gm_construct_description"] =
 	"One of the most iconic maps in Garry's Mod history, GM_Construct offers a versatile playground for all kinds of creations.",
-	["gmod_base_ttT_vessel"] = "Vessel",
-	["gmod_base_ttT_vessel_description"] =
+	["gmod_base_ttt_vessel"] = "Vessel",
+	["gmod_base_ttt_vessel_description"] =
 	"A Terrorist Town map set on a large cargo ship. Navigate the tight corridors and open decks to outsmart your opponents.",
 	["gmod_base_ttt_rooftops"] = "Rooftops",
 	["gmod_base_ttt_rooftops_description"] =

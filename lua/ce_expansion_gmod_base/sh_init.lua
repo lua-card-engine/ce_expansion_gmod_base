@@ -43,7 +43,7 @@ hook.Add(
 			function(fileName, cardFilePath)
 				CARD.ExpansionSet = EXPANSION_SET_ID
 			end
-        )
+		)
 		--]]
 
 		-- Method 2: Load all cards from a single file (recommended to reduce amount of files in the expansion pack)

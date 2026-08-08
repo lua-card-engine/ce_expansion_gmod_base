@@ -2,6 +2,7 @@ local ALL_CARDS = {}
 
 do
 	local CARD = {}
+	CARD.hooks = setmetatable({}, { __index = CARD })
 	CARD.FileName = "gmod_base_action_duplicate.lua"
 	CARD.FilePath = "ce_expansion_gmod_base/cards/gmod_base_action_duplicate.lua"
 
@@ -16,11 +17,21 @@ do
 		Rarity = "Common",
 		Supertype = "Action",
 	}
+
+	if (SERVER) then
+		-- Reward the card when a player uses the duplicator tool
+		function CARD.hooks:CanTool(ply, trace, mode)
+			if (mode == "duplicator") then
+				CardEngine.Collection.AddCard(ply, "gmod_base_action_duplicate")
+			end
+		end
+	end
 	table.insert(ALL_CARDS, CARD)
 end
 
 do
 	local CARD = {}
+	CARD.hooks = setmetatable({}, { __index = CARD })
 	CARD.FileName = "gmod_base_action_noclip.lua"
 	CARD.FilePath = "ce_expansion_gmod_base/cards/gmod_base_action_noclip.lua"
 
@@ -36,11 +47,21 @@ do
 		Rarity = "Rare",
 		Supertype = "Action",
 	}
+
+	if (SERVER) then
+		-- Reward the card when a player enables noclip
+		function CARD.hooks:PlayerNoClip(ply, desiredState)
+			if (desiredState) then
+				CardEngine.Collection.AddCard(ply, "gmod_base_action_noclip")
+			end
+		end
+	end
 	table.insert(ALL_CARDS, CARD)
 end
 
 do
 	local CARD = {}
+	CARD.hooks = setmetatable({}, { __index = CARD })
 	CARD.FileName = "gmod_base_action_plant_c4.lua"
 	CARD.FilePath = "ce_expansion_gmod_base/cards/gmod_base_action_plant_c4.lua"
 
@@ -54,11 +75,35 @@ do
 		Rarity = "Common",
 		Supertype = "Action",
 	}
+
+	if (SERVER) then
+		-- Reward the card when a player plants a C4 (TTT). Planting spawns a
+		-- "ttt_c4" entity and sets its owner just after creation, so we defer
+		-- reading the owner until the following tick.
+		function CARD.hooks:OnEntityCreated(entity)
+			if (not IsValid(entity) or entity:GetClass() ~= "ttt_c4") then
+				return
+			end
+
+			timer.Simple(0, function()
+				if (not IsValid(entity)) then
+					return
+				end
+
+				local owner = entity:GetOwner()
+
+				if (IsValid(owner) and owner:IsPlayer()) then
+					CardEngine.Collection.AddCard(owner, "gmod_base_action_plant_c4")
+				end
+			end)
+		end
+	end
 	table.insert(ALL_CARDS, CARD)
 end
 
 do
 	local CARD = {}
+	CARD.hooks = setmetatable({}, { __index = CARD })
 	CARD.FileName = "gmod_base_action_propkill.lua"
 	CARD.FilePath = "ce_expansion_gmod_base/cards/gmod_base_action_propkill.lua"
 
@@ -73,11 +118,25 @@ do
 		Rarity = "Common",
 		Supertype = "Action",
 	}
+
+	if (SERVER) then
+		-- Reward the card when a player kills another player by hitting them with a prop
+		function CARD.hooks:PlayerDeath(victim, inflictor, attacker)
+			if (not IsValid(inflictor) or inflictor:GetClass() ~= "prop_physics") then
+				return
+			end
+
+			if (IsValid(attacker) and attacker:IsPlayer() and victim ~= attacker) then
+				CardEngine.Collection.AddCard(attacker, "gmod_base_action_propkill")
+			end
+		end
+	end
 	table.insert(ALL_CARDS, CARD)
 end
 
 do
 	local CARD = {}
+	CARD.hooks = setmetatable({}, { __index = CARD })
 	CARD.FileName = "gmod_base_action_spawn_explosive.lua"
 	CARD.FilePath = "ce_expansion_gmod_base/cards/gmod_base_action_spawn_explosive.lua"
 
@@ -92,11 +151,27 @@ do
 		Rarity = "Common",
 		Supertype = "Action",
 	}
+
+	if (SERVER) then
+		-- Reward the card when a player spawns an explosive prop.
+		-- Extend this list if more explosive props should count.
+		local EXPLOSIVE_MODELS = {
+			["models/props_c17/oildrum001_explosive.mdl"] = true,
+			["models/props_junk/PropaneCanister001a.mdl"] = true,
+		}
+
+		function CARD.hooks:PlayerSpawnedProp(ply, model, prop)
+			if (EXPLOSIVE_MODELS[model]) then
+				CardEngine.Collection.AddCard(ply, "gmod_base_action_spawn_explosive")
+			end
+		end
+	end
 	table.insert(ALL_CARDS, CARD)
 end
 
 do
 	local CARD = {}
+	CARD.hooks = setmetatable({}, { __index = CARD })
 	CARD.FileName = "gmod_base_gamemode_sandbox.lua"
 	CARD.FilePath = "ce_expansion_gmod_base/cards/gmod_base_gamemode_sandbox.lua"
 
@@ -110,11 +185,21 @@ do
 		Rarity = "Common",
 		Supertype = "Gamemode",
 	}
+
+	if (SERVER) then
+		-- Reward the card when a player joins on the Sandbox gamemode
+		function CARD.hooks:PlayerInitialSpawn(ply)
+			if (engine.ActiveGamemode() == "sandbox") then
+				CardEngine.Collection.AddCard(ply, "gmod_base_gamemode_sandbox")
+			end
+		end
+	end
 	table.insert(ALL_CARDS, CARD)
 end
 
 do
 	local CARD = {}
+	CARD.hooks = setmetatable({}, { __index = CARD })
 	CARD.FileName = "gmod_base_gamemode_ttt.lua"
 	CARD.FilePath = "ce_expansion_gmod_base/cards/gmod_base_gamemode_ttt.lua"
 
@@ -128,11 +213,21 @@ do
 		Rarity = "Common",
 		Supertype = "Gamemode",
 	}
+
+	if (SERVER) then
+		-- Reward the card when a player joins on the Trouble in Terrorist Town gamemode
+		function CARD.hooks:PlayerInitialSpawn(ply)
+			if (engine.ActiveGamemode() == "terrortown") then
+				CardEngine.Collection.AddCard(ply, "gmod_base_gamemode_ttt")
+			end
+		end
+	end
 	table.insert(ALL_CARDS, CARD)
 end
 
 do
 	local CARD = {}
+	CARD.hooks = setmetatable({}, { __index = CARD })
 	CARD.FileName = "gmod_base_gm_construct.lua"
 	CARD.FilePath = "ce_expansion_gmod_base/cards/gmod_base_gm_construct.lua"
 
@@ -146,11 +241,21 @@ do
 		Rarity = "Common",
 		Supertype = "Map",
 	}
+
+	if (SERVER) then
+		-- Reward the card when a player joins on gm_construct
+		function CARD.hooks:PlayerInitialSpawn(ply)
+			if (game.GetMap() == "gm_construct") then
+				CardEngine.Collection.AddCard(ply, "gmod_base_gm_construct")
+			end
+		end
+	end
 	table.insert(ALL_CARDS, CARD)
 end
 
 do
 	local CARD = {}
+	CARD.hooks = setmetatable({}, { __index = CARD })
 	CARD.FileName = "gmod_base_gm_flatgrass.lua"
 	CARD.FilePath = "ce_expansion_gmod_base/cards/gmod_base_gm_flatgrass.lua"
 
@@ -164,11 +269,21 @@ do
 		Rarity = "Common",
 		Supertype = "Map",
 	}
+
+	if (SERVER) then
+		-- Reward the card when a player joins on gm_flatgrass
+		function CARD.hooks:PlayerInitialSpawn(ply)
+			if (game.GetMap() == "gm_flatgrass") then
+				CardEngine.Collection.AddCard(ply, "gmod_base_gm_flatgrass")
+			end
+		end
+	end
 	table.insert(ALL_CARDS, CARD)
 end
 
 do
 	local CARD = {}
+	CARD.hooks = setmetatable({}, { __index = CARD })
 	CARD.FileName = "gmod_base_prop_bathtub.lua"
 	CARD.FilePath = "ce_expansion_gmod_base/cards/gmod_base_prop_bathtub.lua"
 
@@ -184,11 +299,21 @@ do
 		Rarity = "Rare",
 		Supertype = "Prop",
 	}
+
+	if (SERVER) then
+		-- Reward the card when a player spawns this prop
+		function CARD.hooks:PlayerSpawnedProp(ply, model, prop)
+			if (model == "models/props_interiors/bathtub01a.mdl") then
+				CardEngine.Collection.AddCard(ply, "gmod_base_prop_bathtub")
+			end
+		end
+	end
 	table.insert(ALL_CARDS, CARD)
 end
 
 do
 	local CARD = {}
+	CARD.hooks = setmetatable({}, { __index = CARD })
 	CARD.FileName = "gmod_base_prop_blastdoor.lua"
 	CARD.FilePath = "ce_expansion_gmod_base/cards/gmod_base_prop_blastdoor.lua"
 
@@ -204,11 +329,21 @@ do
 		Rarity = "Rare",
 		Supertype = "Prop",
 	}
+
+	if (SERVER) then
+		-- Reward the card when a player spawns this prop
+		function CARD.hooks:PlayerSpawnedProp(ply, model, prop)
+			if (model == "models/props_lab/blastdoor001a.mdl") then
+				CardEngine.Collection.AddCard(ply, "gmod_base_prop_blastdoor")
+			end
+		end
+	end
 	table.insert(ALL_CARDS, CARD)
 end
 
 do
 	local CARD = {}
+	CARD.hooks = setmetatable({}, { __index = CARD })
 	CARD.FileName = "gmod_base_prop_blue_barrel.lua"
 	CARD.FilePath = "ce_expansion_gmod_base/cards/gmod_base_prop_blue_barrel.lua"
 
@@ -224,11 +359,21 @@ do
 		Rarity = "Rare",
 		Supertype = "Prop",
 	}
+
+	if (SERVER) then
+		-- Reward the card when a player spawns this prop
+		function CARD.hooks:PlayerSpawnedProp(ply, model, prop)
+			if (model == "models/props_borealis/bluebarrel001.mdl") then
+				CardEngine.Collection.AddCard(ply, "gmod_base_prop_blue_barrel")
+			end
+		end
+	end
 	table.insert(ALL_CARDS, CARD)
 end
 
 do
 	local CARD = {}
+	CARD.hooks = setmetatable({}, { __index = CARD })
 	CARD.FileName = "gmod_base_prop_boat.lua"
 	CARD.FilePath = "ce_expansion_gmod_base/cards/gmod_base_prop_boat.lua"
 
@@ -244,11 +389,21 @@ do
 		Rarity = "Rare",
 		Supertype = "Prop",
 	}
+
+	if (SERVER) then
+		-- Reward the card when a player spawns this prop
+		function CARD.hooks:PlayerSpawnedProp(ply, model, prop)
+			if (model == "models/props_canal/boat002b.mdl") then
+				CardEngine.Collection.AddCard(ply, "gmod_base_prop_boat")
+			end
+		end
+	end
 	table.insert(ALL_CARDS, CARD)
 end
 
 do
 	local CARD = {}
+	CARD.hooks = setmetatable({}, { __index = CARD })
 	CARD.FileName = "gmod_base_prop_combine_apc.lua"
 	CARD.FilePath = "ce_expansion_gmod_base/cards/gmod_base_prop_combine_apc.lua"
 
@@ -264,11 +419,21 @@ do
 		Rarity = "Rare",
 		Supertype = "Prop",
 	}
+
+	if (SERVER) then
+		-- Reward the card when a player spawns this prop
+		function CARD.hooks:PlayerSpawnedProp(ply, model, prop)
+			if (model == "models/combine_apc.mdl") then
+				CardEngine.Collection.AddCard(ply, "gmod_base_prop_combine_apc")
+			end
+		end
+	end
 	table.insert(ALL_CARDS, CARD)
 end
 
 do
 	local CARD = {}
+	CARD.hooks = setmetatable({}, { __index = CARD })
 	CARD.FileName = "gmod_base_prop_combine_train.lua"
 	CARD.FilePath = "ce_expansion_gmod_base/cards/gmod_base_prop_combine_train.lua"
 
@@ -284,11 +449,21 @@ do
 		Rarity = "Rare",
 		Supertype = "Prop",
 	}
+
+	if (SERVER) then
+		-- Reward the card when a player spawns this prop
+		function CARD.hooks:PlayerSpawnedProp(ply, model, prop)
+			if (model == "models/props_combine/combinetrain01a.mdl") then
+				CardEngine.Collection.AddCard(ply, "gmod_base_prop_combine_train")
+			end
+		end
+	end
 	table.insert(ALL_CARDS, CARD)
 end
 
 do
 	local CARD = {}
+	CARD.hooks = setmetatable({}, { __index = CARD })
 	CARD.FileName = "gmod_base_prop_doll.lua"
 	CARD.FilePath = "ce_expansion_gmod_base/cards/gmod_base_prop_doll.lua"
 
@@ -304,11 +479,21 @@ do
 		Rarity = "Rare",
 		Supertype = "Prop",
 	}
+
+	if (SERVER) then
+		-- Reward the card when a player spawns this prop
+		function CARD.hooks:PlayerSpawnedProp(ply, model, prop)
+			if (model == "models/props_c17/doll01.mdl") then
+				CardEngine.Collection.AddCard(ply, "gmod_base_prop_doll")
+			end
+		end
+	end
 	table.insert(ALL_CARDS, CARD)
 end
 
 do
 	local CARD = {}
+	CARD.hooks = setmetatable({}, { __index = CARD })
 	CARD.FileName = "gmod_base_prop_explosive_oildrum.lua"
 	CARD.FilePath = "ce_expansion_gmod_base/cards/gmod_base_prop_explosive_oildrum.lua"
 
@@ -324,11 +509,21 @@ do
 		Rarity = "Rare",
 		Supertype = "Prop",
 	}
+
+	if (SERVER) then
+		-- Reward the card when a player spawns this prop
+		function CARD.hooks:PlayerSpawnedProp(ply, model, prop)
+			if (model == "models/props_c17/oildrum001_explosive.mdl") then
+				CardEngine.Collection.AddCard(ply, "gmod_base_prop_explosive_oildrum")
+			end
+		end
+	end
 	table.insert(ALL_CARDS, CARD)
 end
 
 do
 	local CARD = {}
+	CARD.hooks = setmetatable({}, { __index = CARD })
 	CARD.FileName = "gmod_base_prop_file_cabinet.lua"
 	CARD.FilePath = "ce_expansion_gmod_base/cards/gmod_base_prop_file_cabinet.lua"
 
@@ -344,11 +539,21 @@ do
 		Rarity = "Rare",
 		Supertype = "Prop",
 	}
+
+	if (SERVER) then
+		-- Reward the card when a player spawns this prop
+		function CARD.hooks:PlayerSpawnedProp(ply, model, prop)
+			if (model == "models/props_wasteland/controlroom_filecabinet001a.mdl") then
+				CardEngine.Collection.AddCard(ply, "gmod_base_prop_file_cabinet")
+			end
+		end
+	end
 	table.insert(ALL_CARDS, CARD)
 end
 
 do
 	local CARD = {}
+	CARD.hooks = setmetatable({}, { __index = CARD })
 	CARD.FileName = "gmod_base_prop_health_kit.lua"
 	CARD.FilePath = "ce_expansion_gmod_base/cards/gmod_base_prop_health_kit.lua"
 
@@ -364,11 +569,21 @@ do
 		Rarity = "Rare",
 		Supertype = "Prop",
 	}
+
+	if (SERVER) then
+		-- Reward the card when a player spawns this prop
+		function CARD.hooks:PlayerSpawnedProp(ply, model, prop)
+			if (model == "models/items/healthkit.mdl") then
+				CardEngine.Collection.AddCard(ply, "gmod_base_prop_health_kit")
+			end
+		end
+	end
 	table.insert(ALL_CARDS, CARD)
 end
 
 do
 	local CARD = {}
+	CARD.hooks = setmetatable({}, { __index = CARD })
 	CARD.FileName = "gmod_base_prop_hula_doll.lua"
 	CARD.FilePath = "ce_expansion_gmod_base/cards/gmod_base_prop_hula_doll.lua"
 
@@ -384,11 +599,21 @@ do
 		Rarity = "Rare",
 		Supertype = "Prop",
 	}
+
+	if (SERVER) then
+		-- Reward the card when a player spawns this prop
+		function CARD.hooks:PlayerSpawnedProp(ply, model, prop)
+			if (model == "models/props_lab/huladoll.mdl") then
+				CardEngine.Collection.AddCard(ply, "gmod_base_prop_hula_doll")
+			end
+		end
+	end
 	table.insert(ALL_CARDS, CARD)
 end
 
 do
 	local CARD = {}
+	CARD.hooks = setmetatable({}, { __index = CARD })
 	CARD.FileName = "gmod_base_prop_item_crate.lua"
 	CARD.FilePath = "ce_expansion_gmod_base/cards/gmod_base_prop_item_crate.lua"
 
@@ -404,11 +629,21 @@ do
 		Rarity = "Rare",
 		Supertype = "Prop",
 	}
+
+	if (SERVER) then
+		-- Reward the card when a player spawns this prop
+		function CARD.hooks:PlayerSpawnedProp(ply, model, prop)
+			if (model == "models/items/item_item_crate.mdl") then
+				CardEngine.Collection.AddCard(ply, "gmod_base_prop_item_crate")
+			end
+		end
+	end
 	table.insert(ALL_CARDS, CARD)
 end
 
 do
 	local CARD = {}
+	CARD.hooks = setmetatable({}, { __index = CARD })
 	CARD.FileName = "gmod_base_prop_laundry_cart.lua"
 	CARD.FilePath = "ce_expansion_gmod_base/cards/gmod_base_prop_laundry_cart.lua"
 
@@ -424,11 +659,21 @@ do
 		Rarity = "Rare",
 		Supertype = "Prop",
 	}
+
+	if (SERVER) then
+		-- Reward the card when a player spawns this prop
+		function CARD.hooks:PlayerSpawnedProp(ply, model, prop)
+			if (model == "models/props_wasteland/laundry_cart002.mdl") then
+				CardEngine.Collection.AddCard(ply, "gmod_base_prop_laundry_cart")
+			end
+		end
+	end
 	table.insert(ALL_CARDS, CARD)
 end
 
 do
 	local CARD = {}
+	CARD.hooks = setmetatable({}, { __index = CARD })
 	CARD.FileName = "gmod_base_prop_lockers.lua"
 	CARD.FilePath = "ce_expansion_gmod_base/cards/gmod_base_prop_lockers.lua"
 
@@ -444,11 +689,21 @@ do
 		Rarity = "Rare",
 		Supertype = "Prop",
 	}
+
+	if (SERVER) then
+		-- Reward the card when a player spawns this prop
+		function CARD.hooks:PlayerSpawnedProp(ply, model, prop)
+			if (model == "models/props_c17/lockers001a.mdl") then
+				CardEngine.Collection.AddCard(ply, "gmod_base_prop_lockers")
+			end
+		end
+	end
 	table.insert(ALL_CARDS, CARD)
 end
 
 do
 	local CARD = {}
+	CARD.hooks = setmetatable({}, { __index = CARD })
 	CARD.FileName = "gmod_base_prop_oildrum.lua"
 	CARD.FilePath = "ce_expansion_gmod_base/cards/gmod_base_prop_oildrum.lua"
 
@@ -464,11 +719,21 @@ do
 		Rarity = "Rare",
 		Supertype = "Prop",
 	}
+
+	if (SERVER) then
+		-- Reward the card when a player spawns this prop
+		function CARD.hooks:PlayerSpawnedProp(ply, model, prop)
+			if (model == "models/props_c17/oildrum001.mdl") then
+				CardEngine.Collection.AddCard(ply, "gmod_base_prop_oildrum")
+			end
+		end
+	end
 	table.insert(ALL_CARDS, CARD)
 end
 
 do
 	local CARD = {}
+	CARD.hooks = setmetatable({}, { __index = CARD })
 	CARD.FileName = "gmod_base_prop_pop_can.lua"
 	CARD.FilePath = "ce_expansion_gmod_base/cards/gmod_base_prop_pop_can.lua"
 
@@ -484,11 +749,21 @@ do
 		Rarity = "Rare",
 		Supertype = "Prop",
 	}
+
+	if (SERVER) then
+		-- Reward the card when a player spawns this prop
+		function CARD.hooks:PlayerSpawnedProp(ply, model, prop)
+			if (model == "models/props_junk/popcan01a.mdl") then
+				CardEngine.Collection.AddCard(ply, "gmod_base_prop_pop_can")
+			end
+		end
+	end
 	table.insert(ALL_CARDS, CARD)
 end
 
 do
 	local CARD = {}
+	CARD.hooks = setmetatable({}, { __index = CARD })
 	CARD.FileName = "gmod_base_prop_rifle_ammo.lua"
 	CARD.FilePath = "ce_expansion_gmod_base/cards/gmod_base_prop_rifle_ammo.lua"
 
@@ -504,11 +779,21 @@ do
 		Rarity = "Rare",
 		Supertype = "Prop",
 	}
+
+	if (SERVER) then
+		-- Reward the card when a player spawns this prop
+		function CARD.hooks:PlayerSpawnedProp(ply, model, prop)
+			if (model == "models/items/combine_rifle_ammo01.mdl") then
+				CardEngine.Collection.AddCard(ply, "gmod_base_prop_rifle_ammo")
+			end
+		end
+	end
 	table.insert(ALL_CARDS, CARD)
 end
 
 do
 	local CARD = {}
+	CARD.hooks = setmetatable({}, { __index = CARD })
 	CARD.FileName = "gmod_base_prop_rocket_ammo_crate.lua"
 	CARD.FilePath = "ce_expansion_gmod_base/cards/gmod_base_prop_rocket_ammo_crate.lua"
 
@@ -524,11 +809,21 @@ do
 		Rarity = "Rare",
 		Supertype = "Prop",
 	}
+
+	if (SERVER) then
+		-- Reward the card when a player spawns this prop
+		function CARD.hooks:PlayerSpawnedProp(ply, model, prop)
+			if (model == "models/items/ammocrate_rockets.mdl") then
+				CardEngine.Collection.AddCard(ply, "gmod_base_prop_rocket_ammo_crate")
+			end
+		end
+	end
 	table.insert(ALL_CARDS, CARD)
 end
 
 do
 	local CARD = {}
+	CARD.hooks = setmetatable({}, { __index = CARD })
 	CARD.FileName = "gmod_base_prop_suitcase.lua"
 	CARD.FilePath = "ce_expansion_gmod_base/cards/gmod_base_prop_suitcase.lua"
 
@@ -544,11 +839,21 @@ do
 		Rarity = "Rare",
 		Supertype = "Prop",
 	}
+
+	if (SERVER) then
+		-- Reward the card when a player spawns this prop
+		function CARD.hooks:PlayerSpawnedProp(ply, model, prop)
+			if (model == "models/props_c17/suitcase001a.mdl") then
+				CardEngine.Collection.AddCard(ply, "gmod_base_prop_suitcase")
+			end
+		end
+	end
 	table.insert(ALL_CARDS, CARD)
 end
 
 do
 	local CARD = {}
+	CARD.hooks = setmetatable({}, { __index = CARD })
 	CARD.FileName = "gmod_base_prop_takeout_carton.lua"
 	CARD.FilePath = "ce_expansion_gmod_base/cards/gmod_base_prop_takeout_carton.lua"
 
@@ -564,11 +869,21 @@ do
 		Rarity = "Rare",
 		Supertype = "Prop",
 	}
+
+	if (SERVER) then
+		-- Reward the card when a player spawns this prop
+		function CARD.hooks:PlayerSpawnedProp(ply, model, prop)
+			if (model == "models/props_junk/garbage_takeoutcarton001a.mdl") then
+				CardEngine.Collection.AddCard(ply, "gmod_base_prop_takeout_carton")
+			end
+		end
+	end
 	table.insert(ALL_CARDS, CARD)
 end
 
 do
 	local CARD = {}
+	CARD.hooks = setmetatable({}, { __index = CARD })
 	CARD.FileName = "gmod_base_prop_trabbi.lua"
 	CARD.FilePath = "ce_expansion_gmod_base/cards/gmod_base_prop_trabbi.lua"
 
@@ -584,11 +899,21 @@ do
 		Rarity = "Rare",
 		Supertype = "Prop",
 	}
+
+	if (SERVER) then
+		-- Reward the card when a player spawns this prop
+		function CARD.hooks:PlayerSpawnedProp(ply, model, prop)
+			if (model == "models/props_vehicles/car002a.mdl") then
+				CardEngine.Collection.AddCard(ply, "gmod_base_prop_trabbi")
+			end
+		end
+	end
 	table.insert(ALL_CARDS, CARD)
 end
 
 do
 	local CARD = {}
+	CARD.hooks = setmetatable({}, { __index = CARD })
 	CARD.FileName = "gmod_base_prop_traffic_cone.lua"
 	CARD.FilePath = "ce_expansion_gmod_base/cards/gmod_base_prop_traffic_cone.lua"
 
@@ -604,11 +929,21 @@ do
 		Rarity = "Rare",
 		Supertype = "Prop",
 	}
+
+	if (SERVER) then
+		-- Reward the card when a player spawns this prop
+		function CARD.hooks:PlayerSpawnedProp(ply, model, prop)
+			if (model == "models/props_junk/trafficcone001a.mdl") then
+				CardEngine.Collection.AddCard(ply, "gmod_base_prop_traffic_cone")
+			end
+		end
+	end
 	table.insert(ALL_CARDS, CARD)
 end
 
 do
 	local CARD = {}
+	CARD.hooks = setmetatable({}, { __index = CARD })
 	CARD.FileName = "gmod_base_prop_vending_machine.lua"
 	CARD.FilePath = "ce_expansion_gmod_base/cards/gmod_base_prop_vending_machine.lua"
 
@@ -624,11 +959,21 @@ do
 		Rarity = "Rare",
 		Supertype = "Prop",
 	}
+
+	if (SERVER) then
+		-- Reward the card when a player spawns this prop
+		function CARD.hooks:PlayerSpawnedProp(ply, model, prop)
+			if (model == "models/props_interiors/vendingmachinesoda01a.mdl") then
+				CardEngine.Collection.AddCard(ply, "gmod_base_prop_vending_machine")
+			end
+		end
+	end
 	table.insert(ALL_CARDS, CARD)
 end
 
 do
 	local CARD = {}
+	CARD.hooks = setmetatable({}, { __index = CARD })
 	CARD.FileName = "gmod_base_prop_watermelon.lua"
 	CARD.FilePath = "ce_expansion_gmod_base/cards/gmod_base_prop_watermelon.lua"
 
@@ -644,11 +989,21 @@ do
 		Rarity = "Rare",
 		Supertype = "Prop",
 	}
+
+	if (SERVER) then
+		-- Reward the card when a player spawns this prop
+		function CARD.hooks:PlayerSpawnedProp(ply, model, prop)
+			if (model == "models/props_junk/watermelon01.mdl") then
+				CardEngine.Collection.AddCard(ply, "gmod_base_prop_watermelon")
+			end
+		end
+	end
 	table.insert(ALL_CARDS, CARD)
 end
 
 do
 	local CARD = {}
+	CARD.hooks = setmetatable({}, { __index = CARD })
 	CARD.FileName = "gmod_base_ttt_67thway.lua"
 	CARD.FilePath = "ce_expansion_gmod_base/cards/gmod_base_ttt_67thway.lua"
 
@@ -662,11 +1017,22 @@ do
 		Rarity = "Common",
 		Supertype = "Map",
 	}
+
+	if (SERVER) then
+		-- Reward the card when a player joins on ttt_67thway. Matched by prefix
+		-- since the installed map's exact version suffix (e.g. "_v3") can vary.
+		function CARD.hooks:PlayerInitialSpawn(ply)
+			if (string.find(game.GetMap(), "^ttt_67thway")) then
+				CardEngine.Collection.AddCard(ply, "gmod_base_ttt_67thway")
+			end
+		end
+	end
 	table.insert(ALL_CARDS, CARD)
 end
 
 do
 	local CARD = {}
+	CARD.hooks = setmetatable({}, { __index = CARD })
 	CARD.FileName = "gmod_base_ttt_airbus.lua"
 	CARD.FilePath = "ce_expansion_gmod_base/cards/gmod_base_ttt_airbus.lua"
 
@@ -680,11 +1046,22 @@ do
 		Rarity = "Common",
 		Supertype = "Map",
 	}
+
+	if (SERVER) then
+		-- Reward the card when a player joins on ttt_airbus. Matched by prefix
+		-- since the installed map's exact version suffix (e.g. "_v2") can vary.
+		function CARD.hooks:PlayerInitialSpawn(ply)
+			if (string.find(game.GetMap(), "^ttt_airbus")) then
+				CardEngine.Collection.AddCard(ply, "gmod_base_ttt_airbus")
+			end
+		end
+	end
 	table.insert(ALL_CARDS, CARD)
 end
 
 do
 	local CARD = {}
+	CARD.hooks = setmetatable({}, { __index = CARD })
 	CARD.FileName = "gmod_base_ttt_lost_temple.lua"
 	CARD.FilePath = "ce_expansion_gmod_base/cards/gmod_base_ttt_lost_temple.lua"
 
@@ -698,11 +1075,22 @@ do
 		Rarity = "Common",
 		Supertype = "Map",
 	}
+
+	if (SERVER) then
+		-- Reward the card when a player joins on ttt_lost_temple. Matched by prefix
+		-- since the installed map's exact version suffix can vary.
+		function CARD.hooks:PlayerInitialSpawn(ply)
+			if (string.find(game.GetMap(), "^ttt_lost_temple")) then
+				CardEngine.Collection.AddCard(ply, "gmod_base_ttt_lost_temple")
+			end
+		end
+	end
 	table.insert(ALL_CARDS, CARD)
 end
 
 do
 	local CARD = {}
+	CARD.hooks = setmetatable({}, { __index = CARD })
 	CARD.FileName = "gmod_base_ttt_rooftops.lua"
 	CARD.FilePath = "ce_expansion_gmod_base/cards/gmod_base_ttt_rooftops.lua"
 
@@ -716,11 +1104,22 @@ do
 		Rarity = "Common",
 		Supertype = "Map",
 	}
+
+	if (SERVER) then
+		-- Reward the card when a player joins on ttt_rooftops. Matched by prefix
+		-- since the installed map's exact version suffix can vary.
+		function CARD.hooks:PlayerInitialSpawn(ply)
+			if (string.find(game.GetMap(), "^ttt_rooftops")) then
+				CardEngine.Collection.AddCard(ply, "gmod_base_ttt_rooftops")
+			end
+		end
+	end
 	table.insert(ALL_CARDS, CARD)
 end
 
 do
 	local CARD = {}
+	CARD.hooks = setmetatable({}, { __index = CARD })
 	CARD.FileName = "gmod_base_ttt_skyscraper.lua"
 	CARD.FilePath = "ce_expansion_gmod_base/cards/gmod_base_ttt_skyscraper.lua"
 
@@ -734,11 +1133,22 @@ do
 		Rarity = "Common",
 		Supertype = "Map",
 	}
+
+	if (SERVER) then
+		-- Reward the card when a player joins on ttt_skyscraper. Matched by prefix
+		-- since the installed map's exact version suffix can vary.
+		function CARD.hooks:PlayerInitialSpawn(ply)
+			if (string.find(game.GetMap(), "^ttt_skyscraper")) then
+				CardEngine.Collection.AddCard(ply, "gmod_base_ttt_skyscraper")
+			end
+		end
+	end
 	table.insert(ALL_CARDS, CARD)
 end
 
 do
 	local CARD = {}
+	CARD.hooks = setmetatable({}, { __index = CARD })
 	CARD.FileName = "gmod_base_ttt_vessel.lua"
 	CARD.FilePath = "ce_expansion_gmod_base/cards/gmod_base_ttt_vessel.lua"
 
@@ -752,11 +1162,22 @@ do
 		Rarity = "Common",
 		Supertype = "Map",
 	}
+
+	if (SERVER) then
+		-- Reward the card when a player joins on ttt_vessel. Matched by prefix
+		-- since the installed map's exact version suffix can vary.
+		function CARD.hooks:PlayerInitialSpawn(ply)
+			if (string.find(game.GetMap(), "^ttt_vessel")) then
+				CardEngine.Collection.AddCard(ply, "gmod_base_ttt_vessel")
+			end
+		end
+	end
 	table.insert(ALL_CARDS, CARD)
 end
 
 do
 	local CARD = {}
+	CARD.hooks = setmetatable({}, { __index = CARD })
 	CARD.FileName = "gmod_base_weapon_357_magnum.lua"
 	CARD.FilePath = "ce_expansion_gmod_base/cards/gmod_base_weapon_357_magnum.lua"
 
@@ -773,11 +1194,21 @@ do
 		Rarity = "Rare",
 		Supertype = "Weapon",
 	}
+
+	if (SERVER) then
+		-- Reward the card when a player equips this weapon
+		function CARD.hooks:PlayerSwitchWeapon(ply, oldWeapon, newWeapon)
+			if (IsValid(newWeapon) and newWeapon:GetClass() == "weapon_357") then
+				CardEngine.Collection.AddCard(ply, "gmod_base_weapon_357_magnum")
+			end
+		end
+	end
 	table.insert(ALL_CARDS, CARD)
 end
 
 do
 	local CARD = {}
+	CARD.hooks = setmetatable({}, { __index = CARD })
 	CARD.FileName = "gmod_base_weapon_9mm_pistol.lua"
 	CARD.FilePath = "ce_expansion_gmod_base/cards/gmod_base_weapon_9mm_pistol.lua"
 
@@ -794,11 +1225,21 @@ do
 		Rarity = "Rare",
 		Supertype = "Weapon",
 	}
+
+	if (SERVER) then
+		-- Reward the card when a player equips this weapon
+		function CARD.hooks:PlayerSwitchWeapon(ply, oldWeapon, newWeapon)
+			if (IsValid(newWeapon) and newWeapon:GetClass() == "weapon_pistol") then
+				CardEngine.Collection.AddCard(ply, "gmod_base_weapon_9mm_pistol")
+			end
+		end
+	end
 	table.insert(ALL_CARDS, CARD)
 end
 
 do
 	local CARD = {}
+	CARD.hooks = setmetatable({}, { __index = CARD })
 	CARD.FileName = "gmod_base_weapon_alyx_gun.lua"
 	CARD.FilePath = "ce_expansion_gmod_base/cards/gmod_base_weapon_alyx_gun.lua"
 
@@ -815,11 +1256,21 @@ do
 		Rarity = "Rare",
 		Supertype = "Weapon",
 	}
+
+	if (SERVER) then
+		-- Reward the card when a player equips this weapon
+		function CARD.hooks:PlayerSwitchWeapon(ply, oldWeapon, newWeapon)
+			if (IsValid(newWeapon) and newWeapon:GetClass() == "weapon_alyxgun") then
+				CardEngine.Collection.AddCard(ply, "gmod_base_weapon_alyx_gun")
+			end
+		end
+	end
 	table.insert(ALL_CARDS, CARD)
 end
 
 do
 	local CARD = {}
+	CARD.hooks = setmetatable({}, { __index = CARD })
 	CARD.FileName = "gmod_base_weapon_annabelle.lua"
 	CARD.FilePath = "ce_expansion_gmod_base/cards/gmod_base_weapon_annabelle.lua"
 
@@ -836,11 +1287,21 @@ do
 		Rarity = "Rare",
 		Supertype = "Weapon",
 	}
+
+	if (SERVER) then
+		-- Reward the card when a player equips this weapon
+		function CARD.hooks:PlayerSwitchWeapon(ply, oldWeapon, newWeapon)
+			if (IsValid(newWeapon) and newWeapon:GetClass() == "weapon_annabelle") then
+				CardEngine.Collection.AddCard(ply, "gmod_base_weapon_annabelle")
+			end
+		end
+	end
 	table.insert(ALL_CARDS, CARD)
 end
 
 do
 	local CARD = {}
+	CARD.hooks = setmetatable({}, { __index = CARD })
 	CARD.FileName = "gmod_base_weapon_bugbait.lua"
 	CARD.FilePath = "ce_expansion_gmod_base/cards/gmod_base_weapon_bugbait.lua"
 
@@ -857,11 +1318,21 @@ do
 		Rarity = "Rare",
 		Supertype = "Weapon",
 	}
+
+	if (SERVER) then
+		-- Reward the card when a player equips this weapon
+		function CARD.hooks:PlayerSwitchWeapon(ply, oldWeapon, newWeapon)
+			if (IsValid(newWeapon) and newWeapon:GetClass() == "weapon_bugbait") then
+				CardEngine.Collection.AddCard(ply, "gmod_base_weapon_bugbait")
+			end
+		end
+	end
 	table.insert(ALL_CARDS, CARD)
 end
 
 do
 	local CARD = {}
+	CARD.hooks = setmetatable({}, { __index = CARD })
 	CARD.FileName = "gmod_base_weapon_crossbow.lua"
 	CARD.FilePath = "ce_expansion_gmod_base/cards/gmod_base_weapon_crossbow.lua"
 
@@ -878,11 +1349,21 @@ do
 		Rarity = "Rare",
 		Supertype = "Weapon",
 	}
+
+	if (SERVER) then
+		-- Reward the card when a player equips this weapon
+		function CARD.hooks:PlayerSwitchWeapon(ply, oldWeapon, newWeapon)
+			if (IsValid(newWeapon) and newWeapon:GetClass() == "weapon_crossbow") then
+				CardEngine.Collection.AddCard(ply, "gmod_base_weapon_crossbow")
+			end
+		end
+	end
 	table.insert(ALL_CARDS, CARD)
 end
 
 do
 	local CARD = {}
+	CARD.hooks = setmetatable({}, { __index = CARD })
 	CARD.FileName = "gmod_base_weapon_crowbar.lua"
 	CARD.FilePath = "ce_expansion_gmod_base/cards/gmod_base_weapon_crowbar.lua"
 
@@ -899,11 +1380,21 @@ do
 		Rarity = "Rare",
 		Supertype = "Weapon",
 	}
+
+	if (SERVER) then
+		-- Reward the card when a player equips this weapon
+		function CARD.hooks:PlayerSwitchWeapon(ply, oldWeapon, newWeapon)
+			if (IsValid(newWeapon) and newWeapon:GetClass() == "weapon_crowbar") then
+				CardEngine.Collection.AddCard(ply, "gmod_base_weapon_crowbar")
+			end
+		end
+	end
 	table.insert(ALL_CARDS, CARD)
 end
 
 do
 	local CARD = {}
+	CARD.hooks = setmetatable({}, { __index = CARD })
 	CARD.FileName = "gmod_base_weapon_gravity_gun.lua"
 	CARD.FilePath = "ce_expansion_gmod_base/cards/gmod_base_weapon_gravity_gun.lua"
 
@@ -920,11 +1411,21 @@ do
 		Rarity = "Rare",
 		Supertype = "Weapon",
 	}
+
+	if (SERVER) then
+		-- Reward the card when a player equips this weapon
+		function CARD.hooks:PlayerSwitchWeapon(ply, oldWeapon, newWeapon)
+			if (IsValid(newWeapon) and newWeapon:GetClass() == "weapon_physcannon") then
+				CardEngine.Collection.AddCard(ply, "gmod_base_weapon_gravity_gun")
+			end
+		end
+	end
 	table.insert(ALL_CARDS, CARD)
 end
 
 do
 	local CARD = {}
+	CARD.hooks = setmetatable({}, { __index = CARD })
 	CARD.FileName = "gmod_base_weapon_grenade.lua"
 	CARD.FilePath = "ce_expansion_gmod_base/cards/gmod_base_weapon_grenade.lua"
 
@@ -941,11 +1442,21 @@ do
 		Rarity = "Rare",
 		Supertype = "Weapon",
 	}
+
+	if (SERVER) then
+		-- Reward the card when a player equips this weapon
+		function CARD.hooks:PlayerSwitchWeapon(ply, oldWeapon, newWeapon)
+			if (IsValid(newWeapon) and newWeapon:GetClass() == "weapon_frag") then
+				CardEngine.Collection.AddCard(ply, "gmod_base_weapon_grenade")
+			end
+		end
+	end
 	table.insert(ALL_CARDS, CARD)
 end
 
 do
 	local CARD = {}
+	CARD.hooks = setmetatable({}, { __index = CARD })
 	CARD.FileName = "gmod_base_weapon_physics_gun.lua"
 	CARD.FilePath = "ce_expansion_gmod_base/cards/gmod_base_weapon_physics_gun.lua"
 
@@ -962,11 +1473,21 @@ do
 		Rarity = "Rare",
 		Supertype = "Weapon",
 	}
+
+	if (SERVER) then
+		-- Reward the card when a player equips this weapon
+		function CARD.hooks:PlayerSwitchWeapon(ply, oldWeapon, newWeapon)
+			if (IsValid(newWeapon) and newWeapon:GetClass() == "weapon_physgun") then
+				CardEngine.Collection.AddCard(ply, "gmod_base_weapon_physics_gun")
+			end
+		end
+	end
 	table.insert(ALL_CARDS, CARD)
 end
 
 do
 	local CARD = {}
+	CARD.hooks = setmetatable({}, { __index = CARD })
 	CARD.FileName = "gmod_base_weapon_pulse_rifle.lua"
 	CARD.FilePath = "ce_expansion_gmod_base/cards/gmod_base_weapon_pulse_rifle.lua"
 
@@ -983,11 +1504,21 @@ do
 		Rarity = "Rare",
 		Supertype = "Weapon",
 	}
+
+	if (SERVER) then
+		-- Reward the card when a player equips this weapon
+		function CARD.hooks:PlayerSwitchWeapon(ply, oldWeapon, newWeapon)
+			if (IsValid(newWeapon) and newWeapon:GetClass() == "weapon_ar2") then
+				CardEngine.Collection.AddCard(ply, "gmod_base_weapon_pulse_rifle")
+			end
+		end
+	end
 	table.insert(ALL_CARDS, CARD)
 end
 
 do
 	local CARD = {}
+	CARD.hooks = setmetatable({}, { __index = CARD })
 	CARD.FileName = "gmod_base_weapon_rpg_launcher.lua"
 	CARD.FilePath = "ce_expansion_gmod_base/cards/gmod_base_weapon_rpg_launcher.lua"
 
@@ -1004,11 +1535,21 @@ do
 		Rarity = "Rare",
 		Supertype = "Weapon",
 	}
+
+	if (SERVER) then
+		-- Reward the card when a player equips this weapon
+		function CARD.hooks:PlayerSwitchWeapon(ply, oldWeapon, newWeapon)
+			if (IsValid(newWeapon) and newWeapon:GetClass() == "weapon_rpg") then
+				CardEngine.Collection.AddCard(ply, "gmod_base_weapon_rpg_launcher")
+			end
+		end
+	end
 	table.insert(ALL_CARDS, CARD)
 end
 
 do
 	local CARD = {}
+	CARD.hooks = setmetatable({}, { __index = CARD })
 	CARD.FileName = "gmod_base_weapon_shotgun.lua"
 	CARD.FilePath = "ce_expansion_gmod_base/cards/gmod_base_weapon_shotgun.lua"
 
@@ -1025,11 +1566,21 @@ do
 		Rarity = "Rare",
 		Supertype = "Weapon",
 	}
+
+	if (SERVER) then
+		-- Reward the card when a player equips this weapon
+		function CARD.hooks:PlayerSwitchWeapon(ply, oldWeapon, newWeapon)
+			if (IsValid(newWeapon) and newWeapon:GetClass() == "weapon_shotgun") then
+				CardEngine.Collection.AddCard(ply, "gmod_base_weapon_shotgun")
+			end
+		end
+	end
 	table.insert(ALL_CARDS, CARD)
 end
 
 do
 	local CARD = {}
+	CARD.hooks = setmetatable({}, { __index = CARD })
 	CARD.FileName = "gmod_base_weapon_slam.lua"
 	CARD.FilePath = "ce_expansion_gmod_base/cards/gmod_base_weapon_slam.lua"
 
@@ -1046,11 +1597,21 @@ do
 		Rarity = "Rare",
 		Supertype = "Weapon",
 	}
+
+	if (SERVER) then
+		-- Reward the card when a player equips this weapon
+		function CARD.hooks:PlayerSwitchWeapon(ply, oldWeapon, newWeapon)
+			if (IsValid(newWeapon) and newWeapon:GetClass() == "weapon_slam") then
+				CardEngine.Collection.AddCard(ply, "gmod_base_weapon_slam")
+			end
+		end
+	end
 	table.insert(ALL_CARDS, CARD)
 end
 
 do
 	local CARD = {}
+	CARD.hooks = setmetatable({}, { __index = CARD })
 	CARD.FileName = "gmod_base_weapon_smg.lua"
 	CARD.FilePath = "ce_expansion_gmod_base/cards/gmod_base_weapon_smg.lua"
 
@@ -1067,11 +1628,21 @@ do
 		Rarity = "Rare",
 		Supertype = "Weapon",
 	}
+
+	if (SERVER) then
+		-- Reward the card when a player equips this weapon
+		function CARD.hooks:PlayerSwitchWeapon(ply, oldWeapon, newWeapon)
+			if (IsValid(newWeapon) and newWeapon:GetClass() == "weapon_smg1") then
+				CardEngine.Collection.AddCard(ply, "gmod_base_weapon_smg")
+			end
+		end
+	end
 	table.insert(ALL_CARDS, CARD)
 end
 
 do
 	local CARD = {}
+	CARD.hooks = setmetatable({}, { __index = CARD })
 	CARD.FileName = "gmod_base_weapon_stunstick.lua"
 	CARD.FilePath = "ce_expansion_gmod_base/cards/gmod_base_weapon_stunstick.lua"
 
@@ -1088,6 +1659,15 @@ do
 		Rarity = "Rare",
 		Supertype = "Weapon",
 	}
+
+	if (SERVER) then
+		-- Reward the card when a player equips this weapon
+		function CARD.hooks:PlayerSwitchWeapon(ply, oldWeapon, newWeapon)
+			if (IsValid(newWeapon) and newWeapon:GetClass() == "weapon_stunstick") then
+				CardEngine.Collection.AddCard(ply, "gmod_base_weapon_stunstick")
+			end
+		end
+	end
 	table.insert(ALL_CARDS, CARD)
 end
 

@@ -9,6 +9,15 @@ CARD.HolographicStrength = Vector(1, 1, 1)
 CARD.HolographicTexture = "card_engine/holo_rainbow_strong"
 
 CARD.Attributes = {
-  Rarity = "Rare",
-  Supertype = "Action",
+	Rarity = "Rare",
+	Supertype = "Action",
 }
+
+if (SERVER) then
+	-- Reward the card when a player enables noclip
+	function CARD.hooks:PlayerNoClip(ply, desiredState)
+		if (desiredState) then
+			CardEngine.Collection.AddCard(ply, "gmod_base_action_noclip")
+		end
+	end
+end

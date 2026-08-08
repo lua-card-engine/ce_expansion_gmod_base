@@ -10,6 +10,15 @@ CARD.HolographicTexture = "card_engine/holo_rainbow_strong"
 CARD.ModelAngles = Angle(0, -90, 0)
 
 CARD.Attributes = {
-  Rarity = "Rare",
-  Supertype = "Weapon",
+	Rarity = "Rare",
+	Supertype = "Weapon",
 }
+
+if (SERVER) then
+	-- Reward the card when a player equips this weapon
+	function CARD.hooks:PlayerSwitchWeapon(ply, oldWeapon, newWeapon)
+		if (IsValid(newWeapon) and newWeapon:GetClass() == "weapon_physgun") then
+			CardEngine.Collection.AddCard(ply, "gmod_base_weapon_physics_gun")
+		end
+	end
+end
