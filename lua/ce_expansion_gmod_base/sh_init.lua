@@ -12,7 +12,6 @@ hook.Add(
 		CardEngine.ExpansionSet.Register({
 			UniqueID = EXPANSION_SET_ID,
 			Name = "expansion_set_gmod_base",
-			Image = "card_engine/ce_expansion_gmod_base/set_logo",
 			RemoteDownloadURL = "https://card-engine-r2.luttonline.nl/",
 
 			-- Define which attributes should appear as filters in the collection menu
