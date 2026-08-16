@@ -1,7 +1,7 @@
 {
     "name": "ce_gmod_base_tools",
     "version": "0.1.0",
-    "description": "Tools for ce_expansion_gmod_base expansion pack",
+    "description": "Tools for ce_expansion_gmod_base expansion set",
     "main": "index.js",
     "type": "module",
     "scripts": {
